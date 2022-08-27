@@ -35,6 +35,6 @@
 }
 @media screen and (max-width:450px){
     .info-section{
-        flex-direction:column;
+        flex-direction: column;
     }
 }    
