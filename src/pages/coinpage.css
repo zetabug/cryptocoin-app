@@ -33,3 +33,8 @@
 .info-section .right {
     flex: 2;
 }
+@media screen and (max-width:450px){
+    .info-section{
+        flex-direction:column;
+    }
+}    
