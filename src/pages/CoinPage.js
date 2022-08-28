@@ -42,8 +42,8 @@ const CoinPage = () => {
          
 
           <h3>Rank : {rank}</h3>
-          <h3>Current Price : ₹ {price.toLocaleString("en-US")}</h3>
-          <h3>Market Capital : ₹ {mc.toLocaleString("en-US")}</h3>
+          <h3>Current Price : ₹{price.toLocaleString("en-US")}</h3>
+          <h3>Market Capital : ₹{mc.toLocaleString("en-US")}</h3>
         </div>
 
         <div className="right">
