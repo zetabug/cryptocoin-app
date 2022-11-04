@@ -34,6 +34,9 @@ const CoinPage = () => {
 
 
   return (
+    <>
+                <h2 style={{textAlign:'center',marginBlock:'30px'}}>Crypto Apex</h2>
+
     <div className='new-container'>
       <div className="info-section">
         <div className="left">
@@ -52,6 +55,7 @@ const CoinPage = () => {
         </div>
       </div>
     </div>
+    </>
   )
 }
 

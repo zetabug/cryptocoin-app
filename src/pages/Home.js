@@ -24,6 +24,7 @@ const Home = () => {
 
     return (
         <div className="container">
+            <h2 style={{textAlign:'center',marginBlock:'30px'}}>Crypto Apex</h2>
             <Box
                 component="form"
                 sx={{
