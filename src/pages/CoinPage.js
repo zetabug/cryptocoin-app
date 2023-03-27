@@ -1,60 +1,53 @@
 import React, { useEffect, useState } from 'react'
+import axios from 'axios'
 import { useParams } from 'react-router-dom'
 import './coinpage.css'
 
 
 const CoinPage = () => {
-  const [mc,setMc] = useState('')
-  const [price,setPrice] = useState('')
-  const [desc, setDesc] = useState("")
-  const [icon, setIcon] = useState('')
-  const [name, setName] = useState('')
-  const [rank, setRank] = useState('')
-
   const params = useParams();
+  const [coin,setCoin] = useState()
+  const [error,setError] = useState()
   const { id } = params;
 
-
-
-  async function fetchDetails() {
-    const response = await fetch(`https://api.coingecko.com/api/v3/coins/${id}`)
-    const data = await response.json()
-    setDesc(data.description.en)
-    setIcon(data.image.large)
-    setName(data.name)
-    setRank(data.market_cap_rank)
-    setPrice(data.market_data.current_price.inr)
-    setMc(data.market_data.market_cap.inr)
-  }
+  const baseURL = `https://api.coingecko.com/api/v3/coins/${id}?market_data=true`
 
   useEffect(() => {
-    fetchDetails()
-  },[])
-
+   axios.get(baseURL).then((response)=>{
+    setCoin(response.data)
+   }).catch((error)=>{
+    setError(error)
+   })
+  }, [baseURL])
+  
+  if (error) return `Error: ${error.message}`;
+  if (!coin) return "No post!"
 
 
   return (
     <>
-                <h2 style={{textAlign:'center',marginBlock:'30px'}}>Crypto Apex</h2>
+      <h2 style={{ textAlign: 'center', marginBlock: '30px' }}>Crypto Apex</h2>
 
-    <div className='new-container'>
-      <div className="info-section">
-        <div className="left">
-          <img src={icon} alt="" width={'100px'} />
-          <h1>{name}</h1>
-         
+       <div className='new-container'>
+         <div className="info-section">
+           <div className="left">
+             <img src={coin.image.large} alt="" width={'100px'} />
+             <h1>{coin.name}</h1>
+      
+      
+             <h3>Rank : {coin.market_cap_rank}</h3>
+             <h3>Current Price : ${coin.market_data.current_price.usd.toLocaleString("en-US")}</h3>
+             <h3>High(24h) : ${coin.market_data.high_24h.usd.toLocaleString("en-US")}</h3>
+             <h3>Low(24h) : ${coin.market_data.low_24h.usd.toLocaleString("en-US")}</h3>
 
-          <h3>Rank : {rank}</h3>
-          <h3>Current Price : ₹{price.toLocaleString("en-US")}</h3>
-          <h3>Market Capital : ₹{mc.toLocaleString("en-US")}</h3>
-        </div>
-
-        <div className="right">
-          <strong>Description : </strong> <br /><br />
-          <div dangerouslySetInnerHTML={{ __html: desc }} />
-        </div>
-      </div>
-    </div>
+           </div>
+      
+           <div className="right">
+             <strong>Description : </strong> <br /><br />
+             <div dangerouslySetInnerHTML={{ __html: coin.description.en }} />
+           </div>
+         </div>
+       </div>
     </>
   )
 }
