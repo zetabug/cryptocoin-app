@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Box, TextField, CircularProgress } from '@mui/material';
+import axios from 'axios';
 import "./home.css"
 
 const Home = () => {
@@ -7,18 +8,15 @@ const Home = () => {
     const [loading, setLoading] = useState(false);
     const [search, setSearch] = useState('');
 
-
-    async function fetchCoins() {
-        setLoading(true)
-        const url = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false&price_change_percentage=24h`
-        const response = await fetch(url)
-        const data = await response.json()
-        setCoins(data)
-        setLoading(false)
-    }
-
     useEffect(() => {
-        fetchCoins()
+        setLoading(true)
+        axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false&price_change_percentage=24h`)
+        .then((response)=>{
+            setCoins(response.data)
+           }).catch((error)=>{
+            console.log(error)
+           })
+        setLoading(false)
     }, [search])
 
     return (
